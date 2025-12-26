@@ -1,97 +1,66 @@
-* {
-  box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont;
-}
+const express = require("express");
+const multer = require("multer");
+const unzipper = require("unzipper");
+const fs = require("fs");
+const path = require("path");
+const cors = require("cors");
 
-body {
-  margin: 0;
-  background: #0b0e14;
-  color: #fff;
-}
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-.container {
-  max-width: 420px;
-  margin: auto;
-  padding: 20px;
-}
+app.use(cors());
+app.use(express.json({ limit: "5mb" }));
+app.use(express.static("public"));
+app.use("/apps", express.static("apps"));
 
-h1 {
-  font-size: 22px;
-  margin-bottom: 20px;
-}
+const upload = multer({ dest: "uploads/" });
 
-label {
-  font-size: 14px;
-  opacity: 0.8;
-}
+/* ===============================
+   DEPLOY VIA PASTE HTML
+================================ */
+app.post("/deploy/html", (req, res) => {
+  const { appName, html } = req.body;
 
-input, textarea {
-  width: 100%;
-  background: #11151f;
-  border: 1px solid #1f2537;
-  border-radius: 10px;
-  padding: 12px;
-  color: white;
-  margin: 8px 0 16px;
-}
+  if (!appName || !html) {
+    return res.status(400).json({ error: "Missing data" });
+  }
 
-textarea {
-  height: 160px;
-  resize: none;
-}
+  const appPath = path.join(__dirname, "apps", appName);
+  fs.mkdirSync(appPath, { recursive: true });
 
-.url-preview {
-  background: #0f1320;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 13px;
-  margin-bottom: 20px;
-}
+  fs.writeFileSync(path.join(appPath, "index.html"), html);
 
-.url {
-  margin-top: 6px;
-  color: #5da9ff;
-  word-break: break-all;
-}
+  res.json({
+    success: true,
+    url: `/apps/${appName}/`
+  });
+});
 
-.tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 15px;
-}
+/* ===============================
+   DEPLOY VIA ZIP
+================================ */
+app.post("/deploy/zip", upload.single("zip"), async (req, res) => {
+  const appName = req.body.appName;
 
-.tab {
-  flex: 1;
-  background: #11151f;
-  border: 1px solid #1f2537;
-  color: #aaa;
-  padding: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 13px;
-}
+  if (!req.file || !appName) {
+    return res.status(400).json({ error: "Missing ZIP or app name" });
+  }
 
-.tab.active {
-  background: #2563eb;
-  color: white;
-  border: none;
-}
+  const appPath = path.join(__dirname, "apps", appName);
+  fs.mkdirSync(appPath, { recursive: true });
 
-.panel {
-  display: none;
-}
+  await fs.createReadStream(req.file.path)
+    .pipe(unzipper.Extract({ path: appPath }))
+    .promise();
 
-.panel.active {
-  display: block;
-}
+  fs.unlinkSync(req.file.path);
 
-.deploy {
-  width: 100%;
-  background: linear-gradient(90deg, #ff7a18, #ffb347);
-  border: none;
-  padding: 14px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
+  res.json({
+    success: true,
+    url: `/apps/${appName}/`
+  });
+});
+
+app.listen(PORT, () =>
+  console.log(`🚀 WEBHOOK running on port ${PORT}`)
+);
