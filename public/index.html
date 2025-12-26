@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>WEBHOOK</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,14 +15,12 @@
 
   <div class="url-preview">
     Your app will be available at:
-    <div class="url" id="urlPreview">
-      /apps/my-awesome-app
-    </div>
+    <div class="url" id="urlPreview">/apps/my-awesome-app</div>
   </div>
 
   <div class="tabs">
-    <button class="tab active" onclick="tab('html')">⟨⟩ Paste HTML</button>
-    <button class="tab" onclick="tab('zip')">📦 Upload ZIP</button>
+    <button class="tab active" onclick="switchTab('html')">⟨⟩ Paste HTML</button>
+    <button class="tab" onclick="switchTab('zip')">📦 Upload ZIP</button>
   </div>
 
   <div id="html" class="panel active">
@@ -35,7 +33,11 @@
     <button onclick="deployZIP()">🚀 Deploy</button>
   </div>
 
-  <div id="result"></div>
+  <!-- DEPLOY CONSOLE -->
+  <div class="console">
+    <div class="console-title">Deployment Console</div>
+    <pre id="console"></pre>
+  </div>
 </div>
 
 <script src="app.js"></script>
