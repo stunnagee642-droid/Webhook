@@ -1,13 +1,19 @@
-function updateURL() {
-  const name = document.getElementById("appName").value || "your-app-name";
-  document.getElementById("urlPreview").innerText =
-    `https://host.webhook.online/${name}`;
-}
-
-function selectTab(tab) {
-  document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
-  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
-
-  document.querySelector(`.tab[onclick*="${tab}"]`).classList.add("active");
-  document.getElementById(tab).classList.add("active");
+{
+  "name": "webhook",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18 <=22"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "multer": "1.4.5-lts.1",
+    "unzipper": "^0.10.14"
+  }
 }
