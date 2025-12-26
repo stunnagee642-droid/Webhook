@@ -1,20 +1,97 @@
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+}
+
 body {
-  background: linear-gradient(135deg, #1b0036, #2e0057);
-  color: white;
-  font-family: Arial;
-  text-align: center;
+  margin: 0;
+  background: #0b0e14;
+  color: #fff;
+}
+
+.container {
+  max-width: 420px;
+  margin: auto;
   padding: 20px;
 }
 
-button {
+h1 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+input, textarea {
+  width: 100%;
+  background: #11151f;
+  border: 1px solid #1f2537;
+  border-radius: 10px;
+  padding: 12px;
+  color: white;
+  margin: 8px 0 16px;
+}
+
+textarea {
+  height: 160px;
+  resize: none;
+}
+
+.url-preview {
+  background: #0f1320;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.url {
+  margin-top: 6px;
+  color: #5da9ff;
+  word-break: break-all;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.tab {
+  flex: 1;
+  background: #11151f;
+  border: 1px solid #1f2537;
+  color: #aaa;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.tab.active {
+  background: #2563eb;
+  color: white;
+  border: none;
+}
+
+.panel {
+  display: none;
+}
+
+.panel.active {
+  display: block;
+}
+
+.deploy {
+  width: 100%;
   background: linear-gradient(90deg, #ff7a18, #ffb347);
   border: none;
   padding: 14px;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 16px;
-  margin-top: 10px;
-}
-
-input {
-  margin-top: 20px;
+  font-weight: bold;
+  cursor: pointer;
 }
