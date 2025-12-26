@@ -24,7 +24,6 @@
 
 <pre id="console">📡 Waiting for deployment...</pre>
 
-<!-- Deployment URL Bar -->
 <div id="deployBar">
     <a id="deployLink" href="#" target="_blank"></a>
 </div>
@@ -45,7 +44,7 @@ button.addEventListener('click', async () => {
     previewFrame.src = "";
 
     try {
-        const response = await fetch('/deploy', { method: 'POST' });
+        const response = await fetch('https://YOUR_BACKEND_URL/deploy', { method: 'POST' });
         if (!response.ok) throw new Error(`Server error: ${response.status}`);
 
         const data = await response.json();
@@ -53,15 +52,13 @@ button.addEventListener('click', async () => {
         if (data.success) {
             consoleEl.textContent += "✅ Deployment successful!\n";
 
-            // Show live URL inside the URL bar
             deployLink.href = data.url;
             deployLink.textContent = data.url;
             deployBar.style.display = 'block';
 
-            // Show deployed site in iframe
             previewFrame.src = data.url;
         } else {
-            consoleEl.textContent += "❌ Deployment failed";
+            consoleEl.textContent += `❌ Deployment failed: ${data.error}`;
         }
     } catch(err) {
         consoleEl.textContent += `🔥 Error: ${err.message}`;
