@@ -1,61 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>WEBHOOK | App Configuration</title>
+  <title>WEBHOOK</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
-
   <h1>🚀 App Configuration</h1>
 
-  <!-- App Name -->
   <label>App Name</label>
-  <input 
-    type="text" 
-    id="appName" 
-    placeholder="my-awesome-app"
-    oninput="updateURL()"
-  />
+  <input id="appName" placeholder="my-awesome-app" oninput="updateURL()">
 
   <div class="url-preview">
     Your app will be available at:
     <div class="url" id="urlPreview">
-      https://host.webhook.online/your-app-name
+      /apps/my-awesome-app
     </div>
   </div>
 
-  <!-- Deployment Method -->
-  <label>Deployment Method</label>
   <div class="tabs">
-    <button class="tab active" onclick="selectTab('html')">⟨⟩ Paste HTML</button>
-    <button class="tab" onclick="selectTab('zip')">📦 Upload ZIP</button>
-    <button class="tab" onclick="selectTab('github')">🐙 GitHub Link</button>
+    <button class="tab active" onclick="tab('html')">⟨⟩ Paste HTML</button>
+    <button class="tab" onclick="tab('zip')">📦 Upload ZIP</button>
   </div>
 
-  <!-- Paste HTML -->
-  <div class="panel active" id="html">
-    <label>HTML Content</label>
-    <textarea placeholder="<!DOCTYPE html>"></textarea>
+  <div id="html" class="panel active">
+    <textarea id="htmlContent" placeholder="<!DOCTYPE html>"></textarea>
+    <button onclick="deployHTML()">🚀 Deploy</button>
   </div>
 
-  <!-- Upload ZIP -->
-  <div class="panel" id="zip">
-    <label>Upload ZIP</label>
-    <input type="file" accept=".zip" />
+  <div id="zip" class="panel">
+    <input type="file" id="zipFile" accept=".zip">
+    <button onclick="deployZIP()">🚀 Deploy</button>
   </div>
 
-  <!-- GitHub -->
-  <div class="panel" id="github">
-    <label>GitHub Repository</label>
-    <input type="text" placeholder="https://github.com/user/repo" />
-  </div>
-
-  <button class="deploy">🚀 Deploy App</button>
-
+  <div id="result"></div>
 </div>
 
 <script src="app.js"></script>
