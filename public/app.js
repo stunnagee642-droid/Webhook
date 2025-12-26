@@ -1,30 +1,13 @@
-async function deploy() {
-  const zip = document.getElementById("zip").files[0];
-  const result = document.getElementById("result");
+function updateURL() {
+  const name = document.getElementById("appName").value || "your-app-name";
+  document.getElementById("urlPreview").innerText =
+    `https://host.webhook.online/${name}`;
+}
 
-  if (!zip) {
-    result.innerText = "Upload a ZIP file";
-    return;
-  }
+function selectTab(tab) {
+  document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
 
-  const form = new FormData();
-  form.append("zip", zip);
-
-  result.innerText = "Deploying...";
-
-  const res = await fetch("/deploy", {
-    method: "POST",
-    body: form
-  });
-
-  const data = await res.json();
-
-  if (data.success) {
-    result.innerHTML = `
-      ✅ Live!<br>
-      <a href="${data.url}" target="_blank">${data.url}</a>
-    `;
-  } else {
-    result.innerText = "Deployment failed";
-  }
+  document.querySelector(`.tab[onclick*="${tab}"]`).classList.add("active");
+  document.getElementById(tab).classList.add("active");
 }
